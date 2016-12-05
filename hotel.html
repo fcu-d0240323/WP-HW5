@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>Hotels</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js">
+    </script>
+    <script src="jquery-3.1.1.js"></script>
+    <script>
+      $(function(){
+        $.ajax({
+          url:"http://140.134.26.71:58080/web-prog/Hotels",
+          type: "GET",
+          dataType: "json",
+          success: function(data){
+            var items = data.Infos.Info;
+            for(var i=0; i<20; i++) {
+              var name = items[i].Name;
+              var imgURL = items[i].Picture1;
+              var descri = items[i].Description;
+              if(i%5 == 0) {
+                $("#attractions #first").append('<div>'+items[i].Name+'<img src="'+imgURL+'" height="200" width="200" class="zoomimg"><div class="hidden" style="display:none">'+descri+'</div></div>');
+              }else if(i%5 == 1) {
+                $("#attractions #second").append('<div>'+items[i].Name+'</div><div><img src="'+imgURL+'" height="200" width="200" class="zoomimg"><div class="hidden" style="display:none">'+descri+'</div></div>');
+              }else if(i%5 == 2) {
+                $("#attractions #third").append('<div>'+items[i].Name+'</div><div><img src="'+imgURL+'" height="200" width="200" class="zoomimg"><div class="hidden" style="display:none">'+descri+'</div></div>');
+              }else if(i%5 == 3) {
+                $("#attractions #fourth").append('<div>'+items[i].Name+'</div><div><img src="'+imgURL+'" height="200" width="200" class="zoomimg"><div class="hidden" style="display:none">'+descri+'</div></div>');
+              }else if(i%5 == 4) {
+                $("#attractions #fifth").append('<div>'+items[i].Name+'</div><div><img src="'+imgURL+'" height="200" width="200" class="zoomimg"><div class="hidden" style="display:none">'+descri+'</div></div>');
+              }
+            }
+          }
+        }).done(function(data){
+          $('.zoomimg').click(function() {
+            $(this).css("cursor","pointer");
+            $(this).animate({width: "400", height: "400"}, 'slow');
+            showText(this);
+          });
+          $('.zoomimg').mouseleave(function() {   
+            $(this).animate({width: "200", height: "200"}, 'slow');
+            $(this.hidden).hide();
+          });
+        });
+      });
+      
+      function showText(obj){
+        var hidden = obj.parentNode.getElementsByTagName("div")[0];
+        if (hidden.style.display == "none")
+          hidden.style.display = "";
+        else
+          hidden.style.display = "none";
+        }
+        
+    </script>
+
+  </head>
+
+  <body>
+    <div id="attractions">
+      <h1>Hotels</h1>
+      <table width="100%">
+        <td id="first"><div class="hidden"></div>
+        <td id="second"><div class="hidden"></div>
+        <td id="third"><div class="hidden"></div>
+        <td id="fourth"><div class="hidden"></div>
+        <td id="fifth"><div class="hidden"></div>
+      </table>
+    </div>
+  </body>
+</html>
